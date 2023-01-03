@@ -19,7 +19,8 @@ public class RelationBinaire {
      action : construit la relation binaire vide dans l'ensemble {0,1,2, ..., nb-1}
      */
     public RelationBinaire(int nb){
-
+        n = nb;
+        matAdj = new boolean[n][n];
     }
 
     //______________________________________________
@@ -31,8 +32,19 @@ public class RelationBinaire {
      En particulier, construit la relation vide si p = 0 et la relation pleine si p = 1.
      Indication : Math.random() retourne un réel de type double aléatoire de l'intervalle [0,1[
      */
-    public RelationBinaire(int nb,double p){
 
+    public RelationBinaire(int nb, double p){
+        /*
+        n = nb;
+        matAdj = new boolean[n][n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(Math.random() < p){
+                    matAdj[i][j] = true;
+                }
+            }
+        }
+        */
     }
 
     //______________________________________________
@@ -44,7 +56,26 @@ public class RelationBinaire {
      '=' si egal a la valeur vrai et '<=' sinon
      */
     public RelationBinaire(int nb, boolean egal){
-
+        n = nb;
+        matAdj = new boolean[n][n];
+        if(egal){
+            for(int i = 0; i < n; i++){
+                for(int j = 0; j < n; j++){
+                    if(i == j){
+                        matAdj[i][j] = true;
+                    }
+                }
+            }
+        }
+        else{
+            for(int i = 0; i < n; i++){
+                for(int j = 0; j < n; j++){
+                    if(i <= j){
+                        matAdj[i][j] = true;
+                    }
+                }
+            }
+        }
     }
 
     //______________________________________________
@@ -58,6 +89,13 @@ public class RelationBinaire {
 
      */
     public RelationBinaire(boolean[][] mat){
+        n = mat.length;
+        matAdj = new boolean[n][n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                matAdj[i][j] = mat[i][j];
+            }
+        }
 
     }
 
@@ -70,6 +108,15 @@ public class RelationBinaire {
      est une copie de tab
      */
     public RelationBinaire(EE[] tab){
+        n = tab.length;
+        matAdj = new boolean[n][n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(tab[i].contient(j)){
+                    matAdj[i][j] = true;
+                }
+            }
+        }
 
     }
 
@@ -80,7 +127,13 @@ public class RelationBinaire {
      action : construit une copie de r
      */
     public RelationBinaire(RelationBinaire r){
-
+        n = r.n;
+        matAdj = new boolean[n][n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                matAdj[i][j] = r.matAdj[i][j];
+            }
+        }
     }
 
 
@@ -96,7 +149,24 @@ public class RelationBinaire {
      en extension (ensemble de couples {(..,..),(..,..), ...})
      */
     public String toString(){
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+        String s = "{";
+        for(int i = 0; i < n; i++){
+            s += "(";
+            for(int j = 0; j < n; j++){
+                if(matAdj[i][j]){
+                    s += "1";
+                }
+                else{
+                    s += "0";
+                }
+                if(j != n-1){
+                    s += ",";
+                }
+            }
+            s += ")";
+        }
+        s += "}";
+        
     }
 
     //______________________________________________
@@ -114,11 +184,9 @@ public class RelationBinaire {
      "implique"et "equivalent" sont numérotés de 1 à 5 dans cet ordre
      */
 
-    public static boolean[][] opBool(boolean[][] m1, boolean[][] m2, int numConnecteur)
+    public static boolean[][] opBool(boolean[][] m1, boolean[][] m2, int numConnecteur){
 
-    {
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
-
+        
     }
 
     //______________________________________________
@@ -128,7 +196,17 @@ public class RelationBinaire {
      résultat : le produit matriciel de m1 et m2
      */
     public static boolean[][] produit(boolean[][] m1, boolean[][] m2){
-        throw new RuntimeException("La fonction n'est pas encore implémentée !");
+        boolean[][] prodMat = new boolean[m1.length][m1.length];
+        for (int i = 0; i < m1.length; i++) {
+            for (int j = 0; j < m1.length; j++) {
+                if(m1[i][j] == m2[i][j]) {
+                    prodMat[i][j] = true;
+                }
+                else {
+                    prodMat[i][j] = false;
+                }
+            }
+        }
     }
 
     //______________________________________________
